@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .back-button a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-button">
+        <a href="index.html">Powrót</a>
+    </div>
+    <div class="container">
+        <h2>Rejestracja</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="login">Nazwa użytkownika</label>
+                <input type="text" id="login" name="login" required>
+            </div>
+            <div class="form-group">
+                <label for="haslo">Hasło</label>
+                <input type="password" id="haslo" name="haslo" required>
+            </div>
+            <div class="form-group">
+                <label for="phaslo">Powtórz hasło</label>
+                <input type="password" id="phaslo" name="phaslo" required>
+                <div class="error" id="error-message"></div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Zarejestruj się</button>
+            </div>
+        </form>
+    </div>  
+
+    <script src="/rejestracja.js"></script>
+</body>
+</html>
