@@ -5,32 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
     <style>
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .popup-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        #closePopup {
-            padding: 10px 20px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
+        /* Stylizacja formularza (jak wcześniej) */
         body {
             font-family: Arial, sans-serif;
         }
@@ -41,16 +16,6 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .back-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-        .back-button a {
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
         }
         .form-group {
             margin-bottom: 15px;
@@ -76,16 +41,36 @@
         .form-group button:hover {
             background-color: #0056b3;
         }
+        /* Popup style */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        #closePopup {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div class="back-button">
-        <a href="index.html">Powrót</a>
-    </div>
     <div class="container">
         <h2>Logowanie</h2>
-        <!-- Formularz wyśle dane do serwera Node.js -->
-        <form id="loginForm" method="POST" action="/login">
+        <form id="loginForm">
             <div class="form-group">
                 <label for="login">Nazwa użytkownika</label>
                 <input type="text" id="login" name="login" required>
@@ -95,10 +80,66 @@
                 <input type="password" id="haslo" name="haslo" required>
             </div>
             <div class="form-group">
+                <label>
+                    <input type="checkbox" id="rememberMe"> Zapamiętaj mnie
+                </label>
+            </div>
+            <div class="form-group">
                 <button type="submit">Zaloguj się</button>
             </div>
         </form>
     </div>
-    <script defer src="logowanie.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("loginForm");
+            const loginInput = document.getElementById("login");
+            const rememberMeCheckbox = document.getElementById("rememberMe");
+
+            // Sprawdzenie, czy dane są zapisane w localStorage
+            if (localStorage.getItem("login")) {
+                loginInput.value = localStorage.getItem("login");
+                rememberMeCheckbox.checked = true;
+            }
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Zatrzymanie domyślnej akcji formularza
+
+                const login = loginInput.value.trim();
+                const haslo = document.getElementById("haslo").value.trim();
+
+                if (rememberMeCheckbox.checked) {
+                    localStorage.setItem("login", login);  // Zapisywanie loginu w localStorage
+                } else {
+                    localStorage.removeItem("login");  // Usuwanie loginu z localStorage, jeśli checkbox jest niezaznaczony
+                }
+
+                // Symulowanie logowania
+                showPopup("Zalogowano pomyślnie!", function () {
+                    // Przekierowanie na stronę po zalogowaniu
+                    window.location.href = "index.html";
+                });
+            });
+
+            // Funkcja do wyświetlania popupu
+            function showPopup(message, callback) {
+                let popup = document.createElement("div");
+                popup.innerHTML = `
+                    <div class="popup-overlay">
+                        <div class="popup-content">
+                            <p>${message}</p>
+                            <button id="closePopup">OK</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(popup);
+
+                document.getElementById("closePopup").addEventListener("click", function () {
+                    popup.remove();
+                    if (callback) callback();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
