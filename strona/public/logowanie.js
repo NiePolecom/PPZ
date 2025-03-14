@@ -1,45 +1,54 @@
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("loginForm");
+    const loginInput = document.getElementById("login");
+    const rememberMeCheckbox = document.getElementById("rememberMe");
+
+    // Sprawdzenie, czy dane są zapisane w localStorage
+    if (localStorage.getItem("login")) {
+        loginInput.value = localStorage.getItem("login");
+        rememberMeCheckbox.checked = true;
+    }
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault(); // Zatrzymanie domyślnej akcji formularza
 
-        const login = document.getElementById("login").value.trim();
+        const login = loginInput.value.trim();
         const haslo = document.getElementById("haslo").value.trim();
 
-        if (!login || !haslo) {
-            showPopup("Wpisz login i hasło!");
-            return;
+        if (rememberMeCheckbox.checked) {
+            localStorage.setItem("login", login); // Zapisywanie loginu w localStorage
+        } else {
+            localStorage.removeItem("login"); // Usuwanie loginu, jeśli checkbox niezaznaczony
         }
 
         try {
-            const response = await fetch("/login", {
+            const response = await fetch("http://localhost:3000/login", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({ login, haslo })
             });
 
-            const result = await response.json();
-            console.log("📥 Odpowiedź serwera:", result);
+            const data = await response.json();
 
             if (response.ok) {
-                showPopup(result.message, () => {
-                    setTimeout(() => {
-                        window.location.href = "index.html"; // Zmienione na index.html
-                    }, 1000); // Zrób opóźnienie np. 1 sekunda
+                // ✅ Jeśli logowanie udane – przekierowanie
+                showPopup("Zalogowano pomyślnie!", function () {
+                    window.location.href = "index.html";
                 });
             } else {
-                showPopup(result.error || "Błąd logowania!");
+                // ❌ Jeśli błąd (złe hasło, brak użytkownika) – pokazujemy błąd
+                showPopup(data.error || "Wystąpił błąd podczas logowania!");
             }
+
         } catch (error) {
-            console.error("❌ Błąd sieci:", error);
-            showPopup("Błąd połączenia z serwerem.");
+            showPopup("Błąd połączenia z serwerem!");
         }
     });
 
+    // Funkcja do wyświetlania popupu
     function showPopup(message, callback) {
-        console.log("Pokazuję popup z wiadomością:", message); // Debugowanie
-
         let popup = document.createElement("div");
         popup.innerHTML = `
             <div class="popup-overlay">
@@ -57,3 +66,4 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+    

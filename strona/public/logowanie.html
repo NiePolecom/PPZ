@@ -114,10 +114,28 @@
                     localStorage.removeItem("login");  // Usuwanie loginu z localStorage, jeśli checkbox jest niezaznaczony
                 }
 
-                // Symulowanie logowania
-                showPopup("Zalogowano pomyślnie!", function () {
-                    // Przekierowanie na stronę po zalogowaniu
-                    window.location.href = "index.html";
+                // Wysłanie zapytania do backendu
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ login, haslo })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === "Zalogowano pomyślnie!") {
+                        // Jeśli logowanie pomyślne
+                        showPopup("Zalogowano pomyślnie!", function () {
+                            window.location.href = "index.html";
+                        });
+                    } else {
+                        // Jeśli błąd
+                        showPopup(data.error);
+                    }
+                })
+                .catch(error => {
+                    showPopup("Wystąpił błąd połączenia z serwerem.");
                 });
             });
 

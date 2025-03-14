@@ -90,15 +90,24 @@ app.post('/login', async (req, res) => {
         console.log("✅ Połączono z bazą danych!");
 
         let result = await connection.execute(
-            'SELECT ID FROM UZYTKOWNICY WHERE LOGIN = :login AND HASLO = :haslo',
-            { login, haslo }
+            'SELECT ID, HASLO FROM UZYTKOWNICY WHERE LOGIN = :login',
+            { login },
+            { outFormat: oracledb.OUT_FORMAT_OBJECT } // Poprawiony format wyników
         );
+
+        console.log("Wynik zapytania SQL:", result.rows);
 
         if (result.rows.length === 0) {
             return res.status(400).json({ error: "Nieprawidłowy login lub hasło!" });
         }
 
-        req.session.user = { id: result.rows[0][0], login };
+        const storedPassword = result.rows[0].HASLO;
+
+        if (storedPassword !== haslo) {
+            return res.status(400).json({ error: "Nieprawidłowy login lub hasło!" });
+        }
+
+        req.session.user = { id: result.rows[0].ID, login };
         res.json({ message: "Zalogowano pomyślnie!" });
 
     } catch (err) {
