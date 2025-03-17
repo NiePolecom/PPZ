@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="icon" type="image/png" href="LogoNaPasku.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script src="rejestracja.js" defer></script>
+        <title>Rejestracja | ChillBill</title>
+    </head>
+    
+
+<body class="logowanie-body">
+    <header>
+        <h2 class="logo">
+            <a href="index.html">
+                <img src="Logo.png" alt="logo" width="100" height="100" class="logo-img"> 
+            </a>  
+        
+        </h2>
+
+        <nav class="navigation">
+
+            <a href="index.html">O nas</a>   
+            <a href="kontakt.html">Kontakt</a>
+            <a href="logowanie.html">Logowanie</a> 
+            <a href="rejestracja.html" class="active">Rejestracja</a>
+
+        </nav>
+    </header>
+        <section class="opis"> 
+            <div class="wrapper">
+                <form id="registerForm">
+                <div class="rejestracja">
+                    <div class="rejestracja-header">
+                        <span>Rejestracja</span>
+                    </div>
+                    <div class="input_box">
+                        <input type="email" id="email" class="input-field" required>
+                        <label for="email" class="label">E-mail</label>
+                        <i class="bx bx-envelope icon"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="text" id="login" class="input-field" required>
+                        <label for="login" class="label">Login</label> <!-- Zmieniono na "Login" -->
+                        <i class="bx bx-user icon"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" id="haslo" class="input-field" required>
+                        <label for="haslo" class="label">Hasło</label>
+                        <i class="bx bx-lock-alt icon"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" id="phaslo" class="input-field" required>
+                        <label for="phaslo" class="label">Potwierdź hasło</label>
+                        <i class="bx bx-lock icon"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="submit" value="Zarejestruj się" class="input-submit">
+                    </div>
+                    <div class="login">
+                        <span>Masz już konto? <a href="logowanie.html">Zaloguj się</a></span>
+                    </div>
+                </div>
+            </form>
+            </div> 
+        </section>
+        <footer>
+            <div class="footerContainer">
+                    <div class="Ikony">
+                        <a href=""><i class="fa-brands fa-facebook"></i></a>
+                        <a href=""><i class="fa-brands fa-instagram"></i></a>
+                        <a href=""><i class="fa-brands fa-x"></i></a>
+                        <a href=""><i class="fa-brands fa-google-plus"></i></a>
+                        <a href=""><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                    <div class="footerNav">
+                        <ul>
+                            <li><a href="rejestracja.html">Wroc</a></li>
+                            <li><a href="kontakt.html">Kontakt</a></li>
+                            <li><a href="logowanie.html">Loren</a></li>
+                        </ul>
+                    </div>
+            </div>
+            <div class="footerBottom">
+                <p>ChillBill &copy; 2023; Design by <span class="designer">Milosz Falarz</span></p>
+            </div>
+        </footer>
+</body>
+</html>
